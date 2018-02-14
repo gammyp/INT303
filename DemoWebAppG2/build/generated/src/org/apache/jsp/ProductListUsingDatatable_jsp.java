@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 
-public final class ProductList_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class ProductListUsingDatatable_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -61,6 +61,9 @@ public final class ProductList_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
       out.write("        <title>JSP Page</title>\n");
       out.write("        <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\n");
+      out.write("        <script src =\"https://code.jquery.com/jquery-1.12.4.js\"></script>\n");
+      out.write("        <script src =\"https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js\"></script>\n");
+      out.write("        <link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css\">\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
       out.write("        <div class =\"container\">\n");
@@ -90,7 +93,7 @@ public final class ProductList_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                <div class = \"row\">\n");
       out.write("                    <div class =\"col-sm-1 col-lg-2\"></div>\n");
       out.write("                    <div class =\"col-sm-10 col-lg-8\"></div>\n");
-      out.write("                    <table class=\"table-striped table-bordered\">\n");
+      out.write("                    <table id=\"example\" class=\"table-striped table-bordered\">\n");
       out.write("                        <thead>\n");
       out.write("                        <th>No</th>\n");
       out.write("                        <th>Product Name</th>\n");
@@ -107,6 +110,11 @@ public final class ProductList_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    </table>\n");
       out.write("                </div>\n");
       out.write("            </div>\n");
+      out.write("            <script>\n");
+      out.write("                $(document).ready(function() {\n");
+      out.write("                    $('#example').DataTable();\n");
+      out.write("                } );\n");
+      out.write("            </script>\n");
       out.write("    </body>\n");
       out.write("</html>\n");
     } catch (Throwable t) {
