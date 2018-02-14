@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>SimpleServlet</servlet-name>
+        <servlet-class>sit.int303.demo.servlet.SimpleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReadFavoriteSubjectServlet</servlet-name>
+        <servlet-class>sit.int303.demo.servlet.ReadFavoriteSubjectServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReadFavoriteSubjectServlets</servlet-name>
+        <servlet-class>sit.int303.demo.servlet.ReadFavoriteSubjectServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductManagerServlet</servlet-name>
+        <servlet-class>sit.int303.demo.servlet.ProductManagerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductListServlet</servlet-name>
+        <servlet-class>sit.int303.demo.servlet.ProductListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SimpleServlet</servlet-name>
+        <url-pattern>/SimpleServlet</url-pattern>
+        <url-pattern>/vs</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReadFavoriteSubjectServlets</servlet-name>
+        <url-pattern>/ReadFavoriteSubject</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductManagerServlet</servlet-name>
+        <url-pattern>/ProductManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductListServlet</servlet-name>
+        <url-pattern>/ProductList</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
