@@ -4,6 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Document/INT303/DemoWebAppG2/src/java/sit/int303/demo/model/controller/ProductJpaController.java</file>
+            <file>file:/D:/Document/INT303/DemoWebAppG2/web/ProductInfo.jsp</file>
+            <file>file:/D:/Document/INT303/DemoWebAppG2/web/ProductListUsingDatatable.jsp</file>
             <file>file:/D:/Document/INT303/DemoWebAppG2/src/java/sit/int303/demo/model/Product.java</file>
             <file>file:/D:/Document/INT303/DemoWebAppG2/web/ProductList.jsp</file>
             <file>file:/D:/Document/INT303/DemoWebAppG2/src/java/sit/int303/demo/servlet/ProductListServlet.java</file>

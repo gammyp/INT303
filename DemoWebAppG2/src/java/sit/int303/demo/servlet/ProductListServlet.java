@@ -13,12 +13,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
 import sit.int303.demo.model.Product;
 import sit.int303.demo.model.controller.ProductJpaController;
+import sun.security.pkcs11.wrapper.PKCS11Constants;
 
 /**
  *
@@ -43,22 +45,44 @@ public class ProductListServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String productName = request.getParameter("productName");
         ProductJpaController productJpaCtrl = new ProductJpaController(utx, emf);
+        String productName = request.getParameter("productName");
         if (productName == null) {
-            List<Product> products = productJpaCtrl.findProductEntities();
+            List<Product> products = null;
+            Cookie cookies[] = request.getCookies();
+            /*
+            for (int i = 0; i < cookies.length;i++) {
+                
+            }
+             */
+            if (cookies != null) {
+                for (Cookie ck : cookies) {
+                    if (ck.getName().equalsIgnoreCase("lastkey")) {
+                        products = productJpaCtrl.findByProductName(ck.getValue());
+                        break;
+                    }
+                }
+                System.out.println("1");
+            } else {
+                products = productJpaCtrl.findProductEntities();
+                System.out.println("2 ");
+            }
             request.setAttribute("products", products);
         } else {
             List<Product> products = productJpaCtrl.findByProductName(productName);
+
             if (products.isEmpty()) {
                 request.setAttribute("message", "Product " + productName + "does not exist!");
             } else {
                 request.setAttribute("products", products);
+                Cookie ck = new Cookie("lastkey", productName);
+                ck.setMaxAge(7 * 24 * 60 * 60);
+                response.addCookie(ck);
             }
         }
 
-        //getServletContext().getRequestDispatcher("/ProductList.jsp").forward(request, response);
-        getServletContext().getRequestDispatcher("/ProductListUsingDatatable.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/ProductList.jsp").forward(request, response);
+        //getServletContext().getRequestDispatcher("/ProductListUsingDatatable.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

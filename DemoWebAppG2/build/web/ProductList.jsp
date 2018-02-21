@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,7 +27,7 @@
                                     Search from Product name :
                                 </td>
                                 <td>
-                                    <input type ="text" required="productName">
+                                    <input type ="text" required name="productName" value="${param.product}">
                                 </td>
                                 <td>
                                     <input type ="submit">
@@ -37,7 +38,37 @@
                 </div>
             </div>
             <hr>
-            <div class ="container">
+            <div class="row">
+            <div class="col-sm-1 col-lg-1"></div>
+            <div class="col-sm-10 col-lg-10">
+                <div class="container">
+                    <div class="row">
+                        <c:forEach items="${products}" var="p" varStatus="vs" >
+                            <c:set var="cutPos" value="${fn:indexOf(p.productline.productline, ' ')}"/>
+                            <c:set var="path" value="${cutPos > 0 ? fn:substring(p.productline.productline, 0, cutPos) : p.productline.productline}"/>
+                            <c:set var="imgFile" value="model-images/${fn:toLowerCase(path)}/${p.productcode}.jpg"/>
+                            <div class="col-md-3">
+                                <div class="thumbnail">
+                                    <a href="ProductManager?productCode=${p.productcode}">
+                                        <img class="img-thumbnail"  src="${imgFile}" title="${p.productcode}">
+                                        <div class="caption">
+                                            <p>${p.productname}  | Scale:  ${p.productscale}  | Price: ${p.msrp} $US </p>
+                                        </div>
+                                    </a>
+                                    <div>
+                                        <a href="AddItemToCart?item=${p.productcode}">
+                                        <img src ="cart.png" width="25">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1 col-lg-1"></div>
+        </div>
+<!--            <div class ="container">
                 <div class = "row">
                     <div class ="col-sm-1 col-lg-2"></div>
                     <div class ="col-sm-10 col-lg-8"></div>
@@ -62,6 +93,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div>-->
+        </div>
     </body>
 </html>
