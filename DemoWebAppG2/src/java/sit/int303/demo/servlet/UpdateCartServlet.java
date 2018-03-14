@@ -7,32 +7,22 @@ package sit.int303.demo.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.annotation.Resource;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import java.util.Enumeration;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
 import sit.int303.demo.model.Cart;
 import sit.int303.demo.model.OrderDetail;
-import sit.int303.demo.model.Product;
-import sit.int303.demo.model.controller.ProductJpaController;
+import sit.int303.demo.model.OrderDetailPK;
 
 /**
  *
  * @author Game
  */
-@WebServlet(name = "AddItemToCartServlet", urlPatterns = {"/AddItemToCart"})
-public class AddItemToCartServlet extends HttpServlet {
-    @PersistenceUnit(unitName = "DemoWebAppG2PU")
-    EntityManagerFactory emf;
-    
-    @Resource
-    UserTransaction utx;
+public class UpdateCartServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,20 +35,41 @@ public class AddItemToCartServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String productCode = request.getParameter("item");
-        HttpSession session = request.getSession(); // create if does not exist
-        if(session.getAttribute("cart") == null) {
-            session.setAttribute("cart", new Cart());
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Cart cart = (Cart) session.getAttribute("cart");
+            if (cart == null) {
+                response.sendError(500, "You cart is missing or emputy.");
+                return;
+            } else {
+                String[] selectedItem = request.getParameterValues("deleteItems");
+                for (String productCode : selectedItem) {
+                    OrderDetailPK odpk = new OrderDetailPK(1, productCode);
+                    cart.remove(odpk);
+                }
+                Enumeration<String> productCodes = request.getParameterNames();
+                while (productCodes.hasMoreElements()) {
+                    String code = productCodes.nextElement();
+                    if(code.equalsIgnoreCase("deleteItems")) {
+                        continue;
+                    }
+                    //System.out.printf("code : %s-10s value: %s\n",code ,request.getParameter(code));
+                    int value = Integer.parseInt(request.getParameter(code));
+                    OrderDetailPK odpk = new OrderDetailPK(1, code);
+                    if (cart.getItem(odpk) != null) {
+                        if (value == 0) {
+                            cart.remove(odpk);
+                        } else {
+                            cart.getItem(odpk).setQuantityordered(value);
+                        }
+                    }
+                }
+            }
+            getServletContext().getRequestDispatcher("/ViewCart").forward(request, response);
+            return;
+        } else {
+            response.sendError(500, "Http Session has expired or not found ... Please add new product to your cart!");
         }
-        ProductJpaController productJpaController = new ProductJpaController(utx, emf);
-        Product product = productJpaController.findProduct(productCode);
-        Cart cart = (Cart)session.getAttribute("cart");
-        OrderDetail orderDetail = new OrderDetail(1, productCode);
-        orderDetail.setQuantityordered(1);
-        orderDetail.setProduct(product);
-        orderDetail.setPriceeach(product.getMsrp());
-        cart.addItem(orderDetail);
-        getServletContext().getRequestDispatcher("/ProductList").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

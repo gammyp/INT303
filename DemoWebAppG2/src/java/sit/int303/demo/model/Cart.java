@@ -16,6 +16,10 @@ import java.util.Map;
 public class Cart {
 
     private Map<OrderDetailPK, OrderDetail> cart;
+    
+    public Collection<OrderDetail> getOrders() {
+        return cart.values();
+    }
 
     public boolean isEmtpy() {
         return cart == null || this.cart.size() == 0;

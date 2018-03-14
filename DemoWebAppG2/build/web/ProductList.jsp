@@ -32,7 +32,12 @@
                                 <td>
                                     <input type ="submit">
                                 </td>
-                            </tr>
+                                <td style="padding-left: 100; width:40%">
+                                    <a href="ViewCart">
+                                        <img src="cart.png" width="20">
+                                    </a>
+                                    (${cart.size})
+                                </td>
                         </table>
                     </form>
                 </div>
